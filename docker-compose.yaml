@@ -1,0 +1,62 @@
+version: '3.9'
+services:
+
+  mongo:
+    image: mongo:7
+    container_name: mongo
+    ports: 
+      - "27018:27017"
+    volumes:
+      - ./mongo_db:/data/db 
+
+  auth-service:
+    build:
+      context: . 
+      dockerfile: ./auth_service/Dockerfile
+    depends_on:
+      - mongo
+    ports:
+      - "8001:8000"
+
+  chat-service:
+    build:
+      context: . 
+      dockerfile: ./chat_service/Dockerfile    
+    depends_on:
+      - mongo
+    ports:
+      - "8002:8000"
+
+  message-service:
+    build:
+      context: . 
+      dockerfile: ./message_service/Dockerfile    
+    depends_on:
+      - mongo
+    ports:
+      - "8003:8000"
+
+  notification-service:
+    build:
+      context: . 
+      dockerfile: ./notification_service/Dockerfile    
+    depends_on:
+      - mongo
+    ports:
+      - "8004:8000"
+
+  user-service:
+    build:
+      context: . 
+      dockerfile: ./user_service/Dockerfile    
+    depends_on:
+      - mongo
+    ports:
+      - "8005:8000"
+
+  
+
+volumes:
+  mongo_db:
+    
+  
