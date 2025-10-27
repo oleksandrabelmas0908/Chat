@@ -2,16 +2,21 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from motor.motor_asyncio import AsyncIOMotorClient
 from beanie import init_beanie
+import os
 
 from shared.core.configs import settings
-from shared.models.user import User
+from shared.models import User, Chat, Message
 from routes import router
+
+
+MONGO_URI = settings.MONGODB_URI
+client = AsyncIOMotorClient(MONGO_URI)
+db = client["chatdb"]
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    client = AsyncIOMotorClient(settings.MONGODB_URI)
-    await init_beanie(database=client.get_default_database(), document_models=[User])
+    await init_beanie(database=db, document_models=[User, Chat, Message])
     yield
 
 

@@ -48,16 +48,6 @@ services:
       - mongo
     ports:
       - "8004:8000"
-
-  user-service:
-    build:
-      context: . 
-      dockerfile: ./user_service/Dockerfile    
-    depends_on:
-      - mongo
-    ports:
-      - "8005:8000"
-
   
 
 volumes:

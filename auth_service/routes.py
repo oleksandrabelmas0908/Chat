@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from security import create_access_token, verify_access_token
 from shared.schemas.user import UserCreate, UserLogin, UserRead
 from crud import login_user, create_user, get_user_by_id
@@ -18,7 +18,8 @@ async def register_user(user_create: UserCreate):
     
 
 @router.post("/login")
-async def login(user_login: UserLogin) -> dict:
+async def login(login_form: OAuth2PasswordRequestForm = Depends()) -> dict:
+    user_login = UserLogin(email=login_form.username, password=login_form.password)
     try:
         user = await login_user(user_login)
         token = create_access_token(user.id)
@@ -31,8 +32,8 @@ async def login(user_login: UserLogin) -> dict:
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
-@router.get("/me", response_model=UserRead)
-async def read_current_user(token: str = Depends(oauth2_scheme)):
+@router.get("/user", response_model=UserRead)
+async def read_current_user(token: str = Depends(oauth2_scheme)) -> UserRead:
     user_id = verify_access_token(token)
     if not user_id:
         raise HTTPException(
