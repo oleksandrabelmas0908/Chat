@@ -10,7 +10,6 @@ class Message(Document):
     chat: Link[Chat]
     text: str
     created_at: datetime = datetime.now()
-    read_by: list[Link[User]]
 
     class Settings:
         name = "messages"

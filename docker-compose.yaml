@@ -23,6 +23,8 @@ services:
       - "8001:8000"
 
   chat-service:
+    env_file:
+      - .env
     build:
       context: . 
       dockerfile: ./chat_service/Dockerfile    
@@ -30,25 +32,12 @@ services:
       - mongo
     ports:
       - "8002:8000"
-
-  message-service:
-    build:
-      context: . 
-      dockerfile: ./message_service/Dockerfile    
-    depends_on:
-      - mongo
-    ports:
-      - "8003:8000"
-
-  notification-service:
-    build:
-      context: . 
-      dockerfile: ./notification_service/Dockerfile    
-    depends_on:
-      - mongo
-    ports:
-      - "8004:8000"
-  
+    volumes:
+      - ./chat_service:/app
+      - ./shared:/app/shared
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]  
 
 volumes:
   mongo_db:

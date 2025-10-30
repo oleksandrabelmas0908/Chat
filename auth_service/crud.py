@@ -1,5 +1,5 @@
 from shared.models.user import User
-from security import hash_password, verify_password
+from shared.core.security import hash_password, verify_password
 from shared.schemas.user import UserCreate, UserLogin, UserRead
 from datetime import datetime
 

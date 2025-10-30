@@ -7,11 +7,7 @@ import os
 from shared.core.configs import settings
 from shared.models import User, Chat, Message
 from routes import router
-
-
-MONGO_URI = settings.MONGODB_URI
-client = AsyncIOMotorClient(MONGO_URI)
-db = client["chatdb"]
+from shared.core.db import db
 
 
 @asynccontextmanager

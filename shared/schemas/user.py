@@ -1,4 +1,5 @@
 from pydantic import BaseModel, EmailStr
+from datetime import datetime
 
 
 class UserCreate(BaseModel):
@@ -11,7 +12,7 @@ class UserRead(BaseModel):
     id: str
     username: str
     email: EmailStr
-    created_at: str
+    created_at: datetime = datetime.now()
 
 
 class UserLogin(BaseModel):

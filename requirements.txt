@@ -3,7 +3,7 @@ annotated-types==0.7.0
 anyio==4.11.0
 asyncio==4.0.0
 atlastk==0.13.5
-beanie==2.0.0
+beanie==1.29.0
 cffi==2.0.0
 click==8.3.0
 cryptography==46.0.3
@@ -15,7 +15,7 @@ h11==0.16.0
 idna==3.11
 jose==1.0.0
 jwt==1.4.0
-lazy-model==0.3.0
+lazy-model==0.2.0
 motor==3.7.1
 passlib==1.7.4
 pyasn1==0.6.1
