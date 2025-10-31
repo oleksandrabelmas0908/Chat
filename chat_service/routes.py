@@ -39,7 +39,6 @@ async def get(chat_id: str, token: str):
     <script>
       const CHAT_ID = {json.dumps(chat_id)};
       const TOKEN = {json.dumps(token)};
-      console.log(`ws://${{window.location.host}}/ws/chat/${{CHAT_ID}}?token=${{TOKEN}}`);
 
       const ws = new WebSocket(`ws://${{window.location.host}}/ws/chat/${{CHAT_ID}}?token=${{TOKEN}}`);
       const chat = document.getElementById("chat");
@@ -50,6 +49,7 @@ async def get(chat_id: str, token: str):
 
       ws.onmessage = (event) => {{
         const data = JSON.parse(event.data);
+        console.log(data)
         if (data.error) {{
           appendMessage(`Error: ${{data.error}}`);
           return;

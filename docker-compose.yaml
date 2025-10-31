@@ -11,12 +11,24 @@ services:
     volumes:
       - mongo_db:/data/db 
 
+  redis:
+    image: redis:7
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: ["redis-server", "--appendonly", "yes"]
+
   auth-service:
     env_file:
       - .env
     build:
       context: . 
       dockerfile: ./auth_service/Dockerfile
+    volumes:
+      - ./auth_service:/app
+      - ./shared:/app/shared
     depends_on:
       - mongo
     ports:
@@ -30,6 +42,7 @@ services:
       dockerfile: ./chat_service/Dockerfile    
     depends_on:
       - mongo
+      - redis
     ports:
       - "8002:8000"
     volumes:
@@ -41,5 +54,6 @@ services:
 
 volumes:
   mongo_db:
+  redis_data:
     
   
